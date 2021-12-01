@@ -26,7 +26,7 @@ public class UserJoinServlet extends HttpServlet {
         String nm = req.getParameter("nm");
         int gender = Utils.getParameterInt(req, "gender");
         String hashPw = BCrypt.hashpw(upw, BCrypt.gensalt());
-      
+
         UserEntity entity = new UserEntity();
         entity.setUid(uid);
         entity.setUpw(hashPw);

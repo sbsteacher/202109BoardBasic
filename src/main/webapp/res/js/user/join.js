@@ -1,5 +1,4 @@
 
-
 function joinChk() {
     var frm = document.querySelector('#frm');
     if(frm.uid.value.length < 5 || frm.uid.value.length > 20) {
