@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet("/user/login")
@@ -30,6 +31,18 @@ public class UserLoginServlet extends HttpServlet {
         System.out.println(entity);
 
         LoginResult lr = UserDAO.login(entity);
+        switch(lr.getResult()) {
+            case 1:
+                //세션에 loginUser값 등록
+                HttpSession hs = req.getSession();
+                hs.setAttribute("loginUser", lr.getLoginUser());
+
+                //이동은 여러분 마음대로
+                res.sendRedirect("/board/list");
+                break;
+            default:
+                break;
+        }
         System.out.println("result : " + lr.getResult());
         System.out.println("loginUser : " + lr.getLoginUser());
     }
