@@ -1,0 +1,11 @@
+-- 2021-12-02 --
+
+Entity (테이블 1:1 mapping)
+
+VO (Value Object) (View용)
+값을 대표하는 객체(불변성)
+setter가 없음, 생성자 통해서
+값 넣어야 함.
+
+select때 쓰는
+DTO (Data Transfer Object)
