@@ -36,8 +36,15 @@ public class BoardRegModServlet extends HttpServlet {
         entity.setCtnt(ctnt);
         entity.setWriter(loginUserPk);
 
-        int result = BoardDAO.insBoard(entity);
-
+        int result = BoardDAO.insBoardWithPk(entity);
+        System.out.println("after-insert-iboard : " + entity.getIboard());
+        switch (result) {
+            case 1:
+                if(entity.getIboard() != 0) {
+                    res.sendRedirect("/board/detail?iboard=" + entity.getIboard());
+                }
+                return;
+        }
         res.sendRedirect("/board/list");
     }
 }
