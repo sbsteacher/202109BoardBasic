@@ -1,6 +1,8 @@
 * { padding: 0; margin: 0; box-sizing: border-box; }
 
 a { text-decoration: none; color: #000; }
+table, td, th { border: 1px solid #262626; border-collapse: collapse; }
+td, th { padding: 5px; }
 ul { list-style: none; }
 
 .container { display: grid; grid-template-rows: 100px 1fr 80px; min-height: 100vh; }
@@ -10,5 +12,7 @@ ul { list-style: none; }
 .topMenu li a { color: #fff; font-size: 20px; }
 .topMenu li a:hover { color: #efefef; }
 .topMenu li:not(:first-child) { margin-left: 15px; }
+
+.body { padding: 20px; }
 
 .footer { background-color: #4b4b4b; color: #fff; }

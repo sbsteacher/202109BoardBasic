@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${requestScope.title}</title>
-    <link rel="stylesheet" href="/res/css/common.css?ver=1">
+    <link rel="stylesheet" href="/res/css/common.css?ver=2">
 </head>
 <body>
     <div class="container">

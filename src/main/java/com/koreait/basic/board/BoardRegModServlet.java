@@ -37,13 +37,15 @@ public class BoardRegModServlet extends HttpServlet {
         entity.setWriter(loginUserPk);
 
         int result = BoardDAO.insBoardWithPk(entity);
+
         System.out.println("after-insert-iboard : " + entity.getIboard());
         switch (result) {
             case 1:
                 if(entity.getIboard() != 0) {
                     res.sendRedirect("/board/detail?iboard=" + entity.getIboard());
+                    return;
                 }
-                return;
+                break;
         }
         res.sendRedirect("/board/list");
     }
