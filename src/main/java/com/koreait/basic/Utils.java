@@ -1,8 +1,11 @@
 package com.koreait.basic;
 
+import com.koreait.basic.user.model.UserEntity;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class Utils {
@@ -27,5 +30,16 @@ public class Utils {
             return Integer.parseInt(val);
         } catch (Exception e) {}
         return defVal;
+    }
+
+    public static UserEntity getLoginUser(HttpServletRequest req) {
+        HttpSession hs = req.getSession();
+        return (UserEntity) hs.getAttribute("loginUser");
+    }
+
+    public static int getLoginUserPk(HttpServletRequest req) {
+        UserEntity loginUser = getLoginUser(req);
+        if(loginUser == null) { return 0; }
+        return loginUser.getIuser();
     }
 }

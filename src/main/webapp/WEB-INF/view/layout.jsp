@@ -14,7 +14,7 @@
             <ul class="topMenu">
                 <li><a href="/board/list">게시판</a></li>
             <c:if test="${sessionScope.loginUser != null}">
-                <li><a href="/board/write">글쓰기</a></li>
+                <li><a href="/board/regmod">글쓰기</a></li>
                 <li><a href="/user/logout">로그아웃</a></li>
             </c:if>
             <c:if test="${sessionScope.loginUser == null}">
