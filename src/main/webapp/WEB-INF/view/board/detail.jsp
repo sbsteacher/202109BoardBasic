@@ -3,8 +3,8 @@
 <div>
     <c:if test="${sessionScope.loginUser.iuser == requestScope.data.writer}">
     <div>
-        <a href="/board/del"><button>삭제</button></a>
-        <a href=""><button>수정</button></a>
+        <a href="/board/del?iboard=${requestScope.data.iboard}"><button>삭제</button></a>
+        <a href="/board/regmod?iboard=${requestScope.data.iboard}"><button>수정</button></a>
     </div>
     </c:if>
     <div>글번호: ${requestScope.data.iboard}</div>
