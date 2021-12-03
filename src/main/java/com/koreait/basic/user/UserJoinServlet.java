@@ -34,7 +34,14 @@ public class UserJoinServlet extends HttpServlet {
         entity.setGender(gender);
 
         int result = UserDAO.join(entity);
-
-        res.sendRedirect("/user/login");
+        switch(result) {
+            case 1:
+                res.sendRedirect("/user/login");
+                break;
+            default:
+                req.setAttribute("err", "회원가입에 실패하였습니다.");
+                doGet(req, res);
+                break;
+        }
     }
 }

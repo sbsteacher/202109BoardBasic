@@ -23,7 +23,14 @@ public class BoardDelServlet extends HttpServlet {
         param.setWriter(writer);
 
         int result = BoardDAO.delBoard(param);
-
-        res.sendRedirect("/board/list");
+        switch(result) {
+            case 1:
+                res.sendRedirect("/board/list");
+                return;
+            default:
+                req.setAttribute("err", "글 삭제를 실패하였습니다.");
+                req.getRequestDispatcher("/board/detail?iboard=" + iboard).forward(req, res);
+                return;
+        }
     }
 }
