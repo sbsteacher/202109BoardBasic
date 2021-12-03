@@ -7,5 +7,5 @@ VO (Value Object) (View용)
 setter가 없음, 생성자 통해서
 값 넣어야 함.
 
-select때 쓰는
+select때 쓰는 파라미터 객체
 DTO (Data Transfer Object)

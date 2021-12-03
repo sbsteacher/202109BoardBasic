@@ -1,6 +1,7 @@
 package com.koreait.basic.dao;
 
 import com.koreait.basic.DbUtils;
+import com.koreait.basic.board.model.BoardDTO;
 import com.koreait.basic.board.model.BoardEntity;
 import com.koreait.basic.board.model.BoardVO;
 
@@ -97,5 +98,46 @@ public class BoardDAO {
         }
 
         return list;
+    }
+
+    public static BoardVO selBoardDetail(BoardDTO param) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "SELECT A.iboard, A.title, A.ctnt, A.writer, A.hit, A.rdt, B.nm as writerNm " +
+                " FROM t_board A " +
+                " INNER JOIN t_user B " +
+                " ON A.writer = B.iuser " +
+                " WHERE A.iboard = ? ";
+        try {
+            con = DbUtils.getCon();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, param.getIboard());
+            rs = ps.executeQuery();
+            if(rs.next()) {
+                int iboard = rs.getInt("iboard");
+                String title = rs.getString("title");
+                String ctnt = rs.getString("ctnt");
+                int writer = rs.getInt("writer");
+                int hit = rs.getInt("hit");
+                String rdt = rs.getString("rdt");
+                String writerNm = rs.getString("writerNm");
+                return BoardVO.builder()
+                        .iboard(iboard)
+                        .title(title)
+                        .ctnt(ctnt)
+                        .writer(writer)
+                        .hit(hit)
+                        .rdt(rdt)
+                        .writerNm(writerNm)
+                        .build();
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        } finally {
+            DbUtils.close(con, ps, rs);
+        }
+
+        return null;
     }
 }
