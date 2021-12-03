@@ -1,5 +1,6 @@
-package com.koreait.basic;
+package com.koreait.basic.board;
 
+import com.koreait.basic.Utils;
 import com.koreait.basic.board.model.BoardDTO;
 import com.koreait.basic.board.model.BoardVO;
 import com.koreait.basic.dao.BoardDAO;
@@ -20,6 +21,11 @@ public class BoardDetailServlet extends HttpServlet {
         param.setIboard(iboard);
 
         BoardVO data = BoardDAO.selBoardDetail(param);
+
+        int loginUserPk = Utils.getLoginUserPk(req);
+        if(data.getWriter() != loginUserPk) { //로그인 안 되어 있으면 0, 로그인 되어 있으면 pk값
+            BoardDAO.updBoardHitUp(param);
+        }
         req.setAttribute("data", data);
         Utils.displayView(data.getTitle(), "board/detail", req, res);
     }
