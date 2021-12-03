@@ -1,7 +1,9 @@
 package com.koreait.basic.board;
 
 import com.koreait.basic.Utils;
+import com.koreait.basic.board.model.BoardDTO;
 import com.koreait.basic.board.model.BoardEntity;
+import com.koreait.basic.board.model.BoardVO;
 import com.koreait.basic.dao.BoardDAO;
 
 import javax.servlet.ServletException;
@@ -16,7 +18,16 @@ public class BoardRegModServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        int iboard = Utils.getParameterInt(req, "iboard");
         String title = "글등록";
+
+        if(iboard > 0) { //수정
+            title = "글수정";
+            BoardDTO param = new BoardDTO();
+            param.setIboard(iboard);
+            BoardVO data = BoardDAO.selBoardDetail(param);
+            req.setAttribute("data", data);
+        }
         Utils.displayView(title, "board/regmod", req, res);
     }
 
@@ -27,18 +38,22 @@ public class BoardRegModServlet extends HttpServlet {
             res.sendRedirect("/user/login");
             return;
         }
-
+        int iboard = Utils.getParameterInt(req, "iboard");
         String title = req.getParameter("title");
         String ctnt = req.getParameter("ctnt");
 
+        int result = 0;
         BoardEntity entity = new BoardEntity();
         entity.setTitle(title);
         entity.setCtnt(ctnt);
         entity.setWriter(loginUserPk);
 
-        int result = BoardDAO.insBoardWithPk(entity);
-
-        System.out.println("after-insert-iboard : " + entity.getIboard());
+        if(iboard == 0) { //등록
+            result = BoardDAO.insBoardWithPk(entity);
+        } else { //수정
+            entity.setIboard(iboard);
+            result = BoardDAO.updBoard(entity);
+        }
         switch (result) {
             case 1:
                 if(entity.getIboard() != 0) {

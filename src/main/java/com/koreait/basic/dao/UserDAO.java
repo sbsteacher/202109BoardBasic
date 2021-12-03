@@ -14,6 +14,7 @@ public class UserDAO {
         PreparedStatement ps = null;
         String sql = " INSERT INTO t_user (uid, upw, nm, gender) " +
                     " VALUES (?, ?, ?, ?) ";
+        System.out.println("upw : " + entity.getUpw());
         try {
             con = DbUtils.getCon();
             ps = con.prepareStatement(sql);
