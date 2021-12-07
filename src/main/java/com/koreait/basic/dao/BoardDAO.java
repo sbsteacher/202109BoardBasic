@@ -87,12 +87,11 @@ public class BoardDAO {
                 " ON A.writer = B.iuser ";
         sql += getSearchWhereString(param);
 
-        System.out.println("sql : " + sql);
-
         try {
             con = DbUtils.getCon();
             ps = con.prepareStatement(sql);
             ps.setInt(1, param.getRowCnt());
+
             rs = ps.executeQuery();
             if(rs.next()) {
                 int maxPageNum = rs.getInt(1);
@@ -110,12 +109,12 @@ public class BoardDAO {
         PreparedStatement ps = null;
         ResultSet rs = null;
         String sql = "SELECT A.iboard, A.title, A.writer, A.hit, A.rdt, B.nm as writerNm " +
-                " FROM t_board A " +
-                " INNER JOIN t_user B " +
-                " ON A.writer = B.iuser ";
+                    " FROM t_board A " +
+                    " INNER JOIN t_user B " +
+                    " ON A.writer = B.iuser ";
         sql += getSearchWhereString(param);
-        sql +=  " ORDER BY A.iboard DESC " +
-                " LIMIT ?, ? ";
+        sql += " ORDER BY A.iboard DESC " +
+               " LIMIT ?, ? ";
 
         try {
             con = DbUtils.getCon();
