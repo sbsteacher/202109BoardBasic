@@ -24,7 +24,9 @@
             </c:if>
             </ul>
         </div>
-        <div class="body"><jsp:include page="/WEB-INF/view/${requestScope.page}.jsp"></jsp:include></div>
+        <div class="body">
+            <jsp:include page="/WEB-INF/view/${requestScope.page}.jsp"></jsp:include>
+        </div>
         <div class="footer">
             footer
         </div>

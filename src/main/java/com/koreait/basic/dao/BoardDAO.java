@@ -59,6 +59,27 @@ public class BoardDAO {
         return 0;
     }
 
+    public static int getMaxPageNum(BoardDTO param) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "SELECT CEIL(COUNT(iboard) / ?) FROM t_board";
+
+        try {
+            con = DbUtils.getCon();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, param.getRowCnt());
+            rs = ps.executeQuery();
+            if(rs.next()) {
+                int maxPageNum = rs.getInt(1);
+                return maxPageNum;
+            } 
+        } catch(Exception e) {
+            e.printStackTrace();
+        } finally { DbUtils.close(con, ps, rs); }
+        return 0;
+    }
+
     public static List<BoardVO> selBoardList() {
         List<BoardVO> list = new ArrayList();
         Connection con = null;
