@@ -59,11 +59,35 @@ public class BoardDAO {
         return 0;
     }
 
+    private static String getSearchWhereString(BoardDTO param) {
+        if(param.getSearchText() != null && !"".equals(param.getSearchText())) {
+            switch(param.getSearchType()) {
+                case 1: // 제목
+                   return String.format(" WHERE A.title LIKE '%%%s%%'", param.getSearchText());
+                case 2: // 내용
+                    return String.format(" WHERE A.ctnt LIKE '%%%s%%'", param.getSearchText());
+                case 3: // 제목,내용
+                    return String.format(" WHERE A.title LIKE '%%%s%%' OR A.ctnt LIKE '%%%s%%'", param.getSearchText(), param.getSearchText());
+                case 4: // 글쓴이
+                    return String.format(" WHERE B.nm LIKE '%%%s%%'", param.getSearchText());
+                case 5: //전체
+                    return String.format(" WHERE A.title LIKE '%%%s%%' OR A.ctnt LIKE '%%%s%%' OR B.nm LIKE '%%%s%%'"
+                            , param.getSearchText(), param.getSearchText(), param.getSearchText());
+            }
+        }
+        return "";
+    }
+
     public static int getMaxPageNum(BoardDTO param) {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String sql = "SELECT CEIL(COUNT(iboard) / ?) FROM t_board";
+        String sql = "SELECT CEIL(COUNT(A.iboard) / ?) FROM t_board A" +
+                " INNER JOIN t_user B " +
+                " ON A.writer = B.iuser ";
+        sql += getSearchWhereString(param);
+
+        System.out.println("sql : " + sql);
 
         try {
             con = DbUtils.getCon();
@@ -88,8 +112,9 @@ public class BoardDAO {
         String sql = "SELECT A.iboard, A.title, A.writer, A.hit, A.rdt, B.nm as writerNm " +
                 " FROM t_board A " +
                 " INNER JOIN t_user B " +
-                " ON A.writer = B.iuser " +
-                " ORDER BY A.iboard DESC " +
+                " ON A.writer = B.iuser ";
+        sql += getSearchWhereString(param);
+        sql +=  " ORDER BY A.iboard DESC " +
                 " LIMIT ?, ? ";
 
         try {

@@ -7,6 +7,21 @@
     </c:when>
     <c:otherwise>
         <div>
+            <form action="/board/list" method="get">
+                <div>
+                    <select name="searchType">
+                        <option value="1">제목</option>
+                        <option value="2">내용</option>
+                        <option value="3">제목/내용</option>
+                        <option value="4">글쓴이</option>
+                        <option value="5">전체</option>
+                    </select>
+                    <input type="search" name="searchText">
+                    <input type="submit" value="검색">
+                </div>
+            </form>
+        </div>
+        <div>
             <table id="boardTable">
                 <colgroup>
                     <col width="20%">

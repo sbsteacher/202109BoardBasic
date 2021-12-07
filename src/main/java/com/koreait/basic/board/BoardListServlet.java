@@ -15,9 +15,13 @@ import java.io.IOException;
 public class BoardListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        int searchType = Utils.getParameterInt(req, "searchType", 0);
+        String searchText = req.getParameter("searchText");
         int page = Utils.getParameterInt(req, "page", 1);
 
         BoardDTO param = new BoardDTO();
+        param.setSearchType(searchType);
+        param.setSearchText(searchText);
         param.setRowCnt(5);
         param.setPage(page);
         int startIdx = (param.getPage() - 1) * param.getRowCnt();

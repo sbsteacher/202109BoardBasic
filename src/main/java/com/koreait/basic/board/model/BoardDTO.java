@@ -10,4 +10,6 @@ public class BoardDTO {
     private int page;
     private int startIdx;
     private int rowCnt;
+    private int searchType;
+    private String searchText;
 }
