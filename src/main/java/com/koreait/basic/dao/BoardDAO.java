@@ -80,7 +80,7 @@ public class BoardDAO {
         return 0;
     }
 
-    public static List<BoardVO> selBoardList() {
+    public static List<BoardVO> selBoardList(BoardDTO param) {
         List<BoardVO> list = new ArrayList();
         Connection con = null;
         PreparedStatement ps = null;
@@ -89,11 +89,14 @@ public class BoardDAO {
                 " FROM t_board A " +
                 " INNER JOIN t_user B " +
                 " ON A.writer = B.iuser " +
-                " ORDER BY A.iboard DESC ";
+                " ORDER BY A.iboard DESC " +
+                " LIMIT ?, ? ";
 
         try {
             con = DbUtils.getCon();
             ps = con.prepareStatement(sql);
+            ps.setInt(1, param.getStartIdx());
+            ps.setInt(2, param.getRowCnt());
             rs = ps.executeQuery();
             while(rs.next()) {
                 int iboard = rs.getInt("iboard");
