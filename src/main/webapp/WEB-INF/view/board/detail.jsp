@@ -40,9 +40,15 @@
                     <td><c:out value="${item.ctnt}"/></td>
                     <td>${item.writerNm}</td>
                     <td>${item.rdt}</td>
-                    <td></td>
+                    <td>
+                        <c:if test="${sessionScope.loginUser.iuser == item.writer}">
+                            <button>수정</button>
+                            <button onclick="isDelCmt(${requestScope.data.iboard}, ${item.icmt});">삭제</button>
+                        </c:if>
+                    </td>
                 </tr>
             </c:forEach>
         </table>
     </div>
 </div>
+<script src="/res/js/board/detail.js"></script>

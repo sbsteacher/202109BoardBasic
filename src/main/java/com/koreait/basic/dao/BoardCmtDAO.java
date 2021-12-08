@@ -67,4 +67,22 @@ public class BoardCmtDAO {
         }
         return list;
     }
+
+    public static int delBoardCmt(BoardCmtEntity entity) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        String sql = " DELETE FROM t_board_cmt WHERE icmt = ? AND writer = ? ";
+        try {
+            con = DbUtils.getCon();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, entity.getIcmt());
+            ps.setInt(2, entity.getWriter());
+            return ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            DbUtils.close(con, ps);
+        }
+        return 0;
+    }
 }
