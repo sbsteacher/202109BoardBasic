@@ -18,3 +18,13 @@ CREATE TABLE t_board(
     mdt DATETIME NOT NULL DEFAULT NOW(),
     FOREIGN KEY(writer) REFERENCES t_user(iuser)
 );
+
+CREATE TABLE t_board_cmt(
+    icmt INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    iboard INT UNSIGNED NOT NULL,
+    FOREIGN KEY (iboard) REFERENCES t_board(iboard),
+    ctnt VARCHAR(2000) NOT NULL,
+    writer INT UNSIGNED NOT NULL,
+    FOREIGN KEY (writer) REFERENCES t_user(iuser),
+    rdt DATETIME DEFAULT NOW()
+);
