@@ -60,7 +60,7 @@ public class BoardDAO {
     }
 
     private static String getSearchWhereString(BoardDTO param) {
-        if(param.getSearchText() != null && !"".equals(param.getSearchText())) {
+        if(param.getSearchText() != null && !"".equals(param.getSearchText())) { // 검색했다면
             switch(param.getSearchType()) {
                 case 1: // 제목
                    return String.format(" WHERE A.title LIKE '%%%s%%'", param.getSearchText());

@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <link rel="stylesheet" href="/res/css/board/list.css?ver=5">
 <div>
-    <form action="/board/list" method="get">
+    <form action="/board/list" method="get" id="searchFrm">
         <div>
             <select name="searchType">
                 <option value="1" ${param.searchType == 1 ? 'selected' : ''}>제목</option>
@@ -14,6 +14,13 @@
             </select>
             <input type="search" name="searchText" value="${param.searchText}">
             <input type="submit" value="검색">
+
+            나타내는 행 수:
+            <select name="rowCnt">
+            <c:forEach var="cnt" begin="5" end="30" step="5">
+                <option value="${cnt}" ${cnt == param.rowCnt ? 'selected' : ''}>${cnt}개</option>
+            </c:forEach>
+            </select>
         </div>
     </form>
 </div>
@@ -40,12 +47,12 @@
                 </tr>
                 <c:forEach items="${requestScope.list}" var="item">
                     <c:set var="eachTitle" value="${fn:replace(fn:replace(item.title, '>', '&gt;'), '<', '&lt;')}"/>
-                    <c:if test="${param.searchType == 1 || param.searchType == 3 || param.searchType == 5}">
+                    <c:if test="${param.searchText != null && (param.searchType == 1 || param.searchType == 3 || param.searchType == 5)}">
                         <c:set var="eachTitle" value="${fn:replace(eachTitle, param.searchText, '<mark>' += param.searchText += '</mark>')}" />
                     </c:if>
 
                     <c:set var="eachWriterNm" value="${item.writerNm}" />
-                    <c:if test="${param.searchType == 4 || param.searchType == 5}">
+                    <c:if test="${param.searchText != null && (param.searchType == 4 || param.searchType == 5)}">
                         <c:set var="eachWriterNm" value="${fn:replace(eachWriterNm, param.searchText, '<mark>' += param.searchText += '</mark>')}" />
                     </c:if>
 
@@ -62,9 +69,9 @@
         <div class="pageContainer">
             <c:set var="selectedPage" value="${param.page == null ? 1 : param.page}" />
             <c:forEach var="page" begin="1" end="${maxPageNum}">
-                <div><a href="/board/list?page=${page}&searchType=${param.searchType}&searchText=${param.searchText}"><span class="${selectedPage == page ? 'selected' : ''}"><c:out value="${page}"/></span></a></div>
+                <div><a href="/board/list?page=${page}&searchType=${param.searchType}&searchText=${param.searchText}&rowCnt=${param.rowCnt}"><span class="${selectedPage == page ? 'selected' : ''}"><c:out value="${page}"/></span></a></div>
             </c:forEach>
         </div>
     </c:otherwise>
 </c:choose>
-<script src="/res/js/board/list.js"></script>
+<script src="/res/js/board/list.js?ver=3"></script>
