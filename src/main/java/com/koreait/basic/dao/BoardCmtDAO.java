@@ -1,10 +1,15 @@
 package com.koreait.basic.dao;
 
 import com.koreait.basic.DbUtils;
+import com.koreait.basic.board.cmt.model.BoardCmtDTO;
 import com.koreait.basic.board.cmt.model.BoardCmtEntity;
+import com.koreait.basic.board.cmt.model.BoardCmtVO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BoardCmtDAO {
     public static int insBoardCmt(BoardCmtEntity param) {
@@ -27,5 +32,39 @@ public class BoardCmtDAO {
             DbUtils.close(con, ps);
         }
         return 0;
+    }
+
+    public static List<BoardCmtVO> selBoardCmtList(BoardCmtDTO param) {
+        List<BoardCmtVO> list = new ArrayList();
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = " SELECT A.icmt, A.ctnt, A.writer, A.rdt, B.nm AS writerNm " +
+                    " FROM t_board_cmt A " +
+                    " INNER JOIN t_user B " +
+                    " ON A.writer = B.iuser " +
+                    " WHERE A.iboard = ? " +
+                    " ORDER BY A.icmt ASC ";
+        try {
+            con = DbUtils.getCon();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, param.getIboard());
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                BoardCmtVO vo = BoardCmtVO.builder()
+                        .icmt(rs.getInt("icmt"))
+                        .ctnt(rs.getString("ctnt"))
+                        .writer(rs.getInt("writer"))
+                        .rdt(rs.getString("rdt"))
+                        .writerNm(rs.getString("writerNm"))
+                        .build();
+                list.add(vo);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            DbUtils.close(con, ps, rs);
+        }
+        return list;
     }
 }

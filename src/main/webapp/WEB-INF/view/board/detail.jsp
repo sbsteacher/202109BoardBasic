@@ -27,5 +27,22 @@
             </form>
         </div>
     </c:if>
-
+    <div>
+        <table>
+            <tr>
+                <th>내용</th>
+                <th>작성자</th>
+                <th>작성일</th>
+                <th>비고</th>
+            </tr>
+            <c:forEach items="${requestScope.cmtList}" var="item">
+                <tr>
+                    <td><c:out value="${item.ctnt}"/></td>
+                    <td>${item.writerNm}</td>
+                    <td>${item.rdt}</td>
+                    <td></td>
+                </tr>
+            </c:forEach>
+        </table>
+    </div>
 </div>

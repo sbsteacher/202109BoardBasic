@@ -26,6 +26,6 @@ public class BoardCmtRegServlet extends HttpServlet {
 
         int result = BoardCmtDAO.insBoardCmt(param);
 
-        res.sendRedirect("/board/detail?iboard=" + iboard);
+        res.sendRedirect("/board/detail?nohits=1&iboard=" + iboard);
     }
 }
