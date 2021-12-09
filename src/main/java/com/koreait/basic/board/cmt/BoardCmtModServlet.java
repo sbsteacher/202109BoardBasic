@@ -11,19 +11,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/board/cmt/del")
-public class BoardCmtDelServlet extends HttpServlet {
+@WebServlet("/board/cmt/mod")
+public class BoardCmtModServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         int iboard = Utils.getParameterInt(req, "iboard");
         int icmt = Utils.getParameterInt(req, "icmt");
-        int loginUserPk = Utils.getLoginUserPk(req);
+        String ctnt = req.getParameter("ctnt");
+        int writer = Utils.getLoginUserPk(req);
 
         BoardCmtEntity param = new BoardCmtEntity();
         param.setIcmt(icmt);
-        param.setWriter(loginUserPk);
+        param.setCtnt(ctnt);
+        param.setWriter(writer);
 
-        int result = BoardCmtDAO.delBoardCmt(param);
+        int result = BoardCmtDAO.updBoardCmt(param);
 
         res.sendRedirect("/board/detail?nohits=1&iboard=" + iboard);
     }
