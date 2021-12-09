@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<link rel="stylesheet" href="/res/css/board/detail.css">
 <div>
     <c:if test="${sessionScope.loginUser.iuser == requestScope.data.writer}">
         <div>
@@ -42,7 +43,7 @@
                     <td>${item.rdt}</td>
                     <td>
                         <c:if test="${sessionScope.loginUser.iuser == item.writer}">
-                            <button>수정</button>
+                            <button onclick="openModForm(${item.icmt}, '${item.ctnt}');">수정</button>
                             <button onclick="isDelCmt(${requestScope.data.iboard}, ${item.icmt});">삭제</button>
                         </c:if>
                     </td>
@@ -51,4 +52,16 @@
         </table>
     </div>
 </div>
-<script src="/res/js/board/detail.js"></script>
+<div class="cmtModContainer">
+    <div class="cmtModBody">
+        <form action="/board/cmt/mod" method="post" id="cmtModFrm">
+            <input type="hidden2" name="icmt">
+            <div><input type="text" name="ctnt" placeholder="댓글 내용"></div>
+            <div>
+                <input type="submit" value="수정">
+                <input type="button" value="취소" id="btnCancel">
+            </div>
+        </form>
+    </div>
+</div>
+<script src="/res/js/board/detail.js?ver=1"></script>
