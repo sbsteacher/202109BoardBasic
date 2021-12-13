@@ -17,10 +17,10 @@
         <div class="fav">
             <c:choose>
                 <c:when test="${requestScope.isHeart == 1}">
-                    <i class="fas fa-thumbs-up"></i>
+                    <a href="/board/heart?proc=2&iboard=${requestScope.data.iboard}"><i class="fas fa-thumbs-up"></i></a>
                 </c:when>
                 <c:otherwise>
-                    <i class="far fa-thumbs-up"></i>
+                    <a href="/board/heart?proc=1&iboard=${requestScope.data.iboard}"><i class="far fa-thumbs-up"></i></a>
                 </c:otherwise>
             </c:choose>
         </div>
