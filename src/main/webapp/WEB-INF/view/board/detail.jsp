@@ -15,8 +15,14 @@
 
     <c:if test="${sessionScope.loginUser != null}">
         <div class="fav">
-            <i class="far fa-thumbs-up"></i>
-            <i class="fas fa-thumbs-up"></i>
+            <c:choose>
+                <c:when test="${requestScope.isHeart == 1}">
+                    <i class="fas fa-thumbs-up"></i>
+                </c:when>
+                <c:otherwise>
+                    <i class="far fa-thumbs-up"></i>
+                </c:otherwise>
+            </c:choose>
         </div>
     </c:if>
 
