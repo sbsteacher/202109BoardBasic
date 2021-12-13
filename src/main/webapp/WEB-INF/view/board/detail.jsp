@@ -12,6 +12,14 @@
             </a>
         </div>
     </c:if>
+
+    <c:if test="${sessionScope.loginUser != null}">
+        <div class="fav">
+            <i class="far fa-thumbs-up"></i>
+            <i class="fas fa-thumbs-up"></i>
+        </div>
+    </c:if>
+
     <div>글번호: ${requestScope.data.iboard}</div>
     <div>조회수 : <c:out value="${requestScope.data.hit}"/></div>
     <div>작성자 : <c:out value="${requestScope.data.writerNm}"/></div>

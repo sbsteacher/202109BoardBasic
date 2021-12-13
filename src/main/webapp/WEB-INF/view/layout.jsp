@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${requestScope.title}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="/res/css/common.css?ver=3">
 </head>
 <body>
@@ -13,6 +14,7 @@
         <div class="header">
             <ul class="topMenu">
                 <li><a href="/board/list">게시판</a></li>
+                <li><a href="/board/rank?type=1">조회수 Top 10</a></li>
             <c:if test="${sessionScope.loginUser != null}">
                 <li><a href="/board/regmod">글쓰기</a></li>
                 <li><a href="/user/logout">로그아웃</a></li>

@@ -31,7 +31,7 @@ public class BoardDetailServlet extends HttpServlet {
         req.setAttribute("cmtList", BoardCmtDAO.selBoardCmtList(cmtParam));
 
         int loginUserPk = Utils.getLoginUserPk(req);
-        if(data.getWriter() != loginUserPk && nohits != 1) { //로그인 안 되어 있으면 0, 로그인 되어 있으면 pk값
+        if(data.getWriter() != loginUserPk && nohits != 1) { //로그인 안 되어 있으면 0, 로그인 되어 있으면 자신이 쓴 글이 아니라면
             BoardDAO.updBoardHitUp(param);
         }
         Utils.displayView(data.getTitle(), "board/detail", req, res);
