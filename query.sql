@@ -28,3 +28,12 @@ CREATE TABLE t_board_cmt(
     FOREIGN KEY (writer) REFERENCES t_user(iuser),
     rdt DATETIME DEFAULT NOW()
 );
+
+CREATE TABLE t_board_heart(
+  iuser INT UNSIGNED,
+  iboard INT UNSIGNED,
+  rdt DATETIME DEFAULT NOW(),
+  PRIMARY key(iuser, iboard),
+  FOREIGN KEY(iuser) REFERENCES t_user(iuser),
+  FOREIGN KEY(iboard) REFERENCES t_board(iboard)
+);
