@@ -1,5 +1,6 @@
 package com.koreait.basic.user;
 
+import com.koreait.basic.FileUtils;
 import com.koreait.basic.Utils;
 import com.koreait.basic.dao.UserDAO;
 import com.koreait.basic.user.model.UserEntity;
@@ -42,8 +43,11 @@ public class UserProfileServlet extends HttpServlet {
         System.out.println("targetPath : " + targetPath);
 
         File targetFolder = new File(targetPath);
-        targetFolder.mkdirs();
-
+        if(targetFolder.exists()) {
+            FileUtils.delFolderFiles(targetPath, false);
+        } else {
+            targetFolder.mkdirs();
+        }
         MultipartRequest mr
                 = new MultipartRequest(req, targetPath, fileMaxSize, "UTF-8", new DefaultFileRenamePolicy());
 
