@@ -15,6 +15,8 @@
             <ul class="topMenu">
                 <li><a href="/board/list">게시판</a></li>
                 <li><a href="/board/rank?type=1">조회수 Top 10</a></li>
+                <li><a href="/board/rank?type=2">댓글수 Top 10</a></li>
+                <li><a href="/board/rank?type=3">좋아요 Top 10</a></li>
             <c:if test="${sessionScope.loginUser != null}">
                 <li><a href="/board/regmod">글쓰기</a></li>
                 <li><a href="/user/logout">로그아웃</a></li>
