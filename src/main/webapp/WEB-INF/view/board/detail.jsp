@@ -13,18 +13,18 @@
         </div>
     </c:if>
 
-    <c:if test="${sessionScope.loginUser != null}">
-        <div class="fav">
+    <div>
+        <c:if test="${sessionScope.loginUser != null}">
             <c:choose>
                 <c:when test="${requestScope.isHeart == 1}">
-                    <a href="/board/heart?proc=2&iboard=${requestScope.data.iboard}"><i class="fas fa-thumbs-up"></i></a>
+                    <a href="/board/heart?proc=2&iboard=${requestScope.data.iboard}"><i class="fas fa-heart"></i></a>
                 </c:when>
                 <c:otherwise>
-                    <a href="/board/heart?proc=1&iboard=${requestScope.data.iboard}"><i class="far fa-thumbs-up"></i></a>
+                    <a href="/board/heart?proc=1&iboard=${requestScope.data.iboard}"><i class="far fa-heart"></i></a>
                 </c:otherwise>
             </c:choose>
-        </div>
-    </c:if>
+        </c:if>
+    </div>
 
     <div>글번호: ${requestScope.data.iboard}</div>
     <div>조회수 : <c:out value="${requestScope.data.hit}"/></div>
