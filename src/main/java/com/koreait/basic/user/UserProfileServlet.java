@@ -52,6 +52,7 @@ public class UserProfileServlet extends HttpServlet {
         entity.setIuser(loginUserPk);
         entity.setProfileImg(changedFileNm);
         int result = UserDAO.updUser(entity);
-        doGet(req, res);
+        //doGet(req, res);
+        res.sendRedirect("/user/profile");
     }
 }
