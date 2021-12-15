@@ -28,6 +28,8 @@ CREATE TABLE t_board_cmt(
     FOREIGN KEY (writer) REFERENCES t_user(iuser),
     rdt DATETIME DEFAULT NOW()
 );
+-- 프로필 이미지
+ALTER TABLE t_user ADD profileImg VARCHAR(50);
 
 CREATE TABLE t_board_heart(
   iuser INT UNSIGNED,
