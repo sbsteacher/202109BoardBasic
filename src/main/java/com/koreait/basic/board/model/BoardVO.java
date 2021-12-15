@@ -14,7 +14,6 @@ public class BoardVO {
     private int cnt;
     private String rdt;
     private String mdt;
-    private int cnt;
 
     private String writerNm;
 }
