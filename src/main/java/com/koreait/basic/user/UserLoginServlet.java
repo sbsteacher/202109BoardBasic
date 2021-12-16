@@ -5,6 +5,7 @@ import com.koreait.basic.dao.UserDAO;
 import com.koreait.basic.user.model.LoginResult;
 import com.koreait.basic.user.model.UserEntity;
 import org.apache.catalina.User;
+import org.mindrot.jbcrypt.BCrypt;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -48,6 +49,34 @@ public class UserLoginServlet extends HttpServlet {
             case 3:
                 err = "비밀번호를 확인해 주세요.";
                 break;
+        }
+        req.setAttribute("err", err);
+        doGet(req, res);
+    }
+
+    protected void doPost2(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        String uid = req.getParameter("uid");
+        String upw = req.getParameter("upw");
+        UserEntity entity = new UserEntity();
+        entity.setUid(uid);
+
+        //LoginResult lr = UserDAO.login(entity);
+        String err = null;
+        UserEntity loginUser = UserDAO.selUser2(entity);
+        if(loginUser == null) { //아이디 없음
+            err = "아이디를 확인해 주세요.";
+        } else {
+            String dbPw = loginUser.getUpw();
+            if(BCrypt.checkpw(upw, dbPw)) { //비밀번호 맞음
+                loginUser.setUpw(null);
+
+                //세션에 loginUser값 등록
+                req.getSession().setAttribute("loginUser", loginUser);
+                res.sendRedirect("/board/list");
+                return;
+            } else { //비밀번호 틀림
+                err = "비밀번호를 확인해 주세요.";
+            }
         }
         req.setAttribute("err", err);
         doGet(req, res);
