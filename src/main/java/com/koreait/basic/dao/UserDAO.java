@@ -114,4 +114,25 @@ public class UserDAO {
         } finally { DbUtils.close(con, ps); }
         return 0;
     }
+
+    public static int updUser2(UserEntity entity) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        String sql = " UPDATE t_user SET profileImg = ? WHERE iuser = ? ";
+        String changeVal = entity.getProfileImg();
+
+        if(entity.getUpw() != null && !"".equals(entity.getUpw())) {
+            sql = sql.replace("profileImg", "upw");
+            changeVal = entity.getUpw();
+        }
+        try {
+            con = DbUtils.getCon();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, changeVal);
+            ps.setInt(2, entity.getIuser());
+            return ps.executeUpdate();
+        } catch (Exception e) { e.printStackTrace();
+        } finally { DbUtils.close(con, ps); }
+        return 0;
+    }
 }
