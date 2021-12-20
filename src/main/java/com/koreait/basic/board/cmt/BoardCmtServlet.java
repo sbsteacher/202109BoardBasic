@@ -34,7 +34,6 @@ public class BoardCmtServlet extends HttpServlet {
         PrintWriter out = res.getWriter();
         out.print(gson.toJson(list));
         out.flush();
-        // http://localhost:8090/board/cmt?iboard=33
     }
 
     @Override
