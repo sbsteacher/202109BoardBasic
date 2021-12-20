@@ -70,7 +70,7 @@ public class UserDAO {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String sql = " SELECT uid, nm, gender, rdt, profileImg FROM t_user WHERE iuser = ? ";
+        String sql = " SELECT uid, upw, nm, gender, rdt, profileImg FROM t_user WHERE iuser = ? ";
         try {
             con = DbUtils.getCon();
             ps = con.prepareStatement(sql);
