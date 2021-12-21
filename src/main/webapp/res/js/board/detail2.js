@@ -50,7 +50,7 @@ function modCtnt(ctnt) {
 }
 
 if(cmtListContainerElem) {
-    function openModForm({ icmt, ctnt }) { //구조 분해 할당 사용함.
+    function openModForm(icmt, ctnt) { //구조 분해 할당 사용함.
         cmtModContainerElem.style.display = 'flex';
         cmtModFrmElem.icmt.value = icmt;
         cmtModFrmElem.ctnt.value = ctnt;
@@ -100,7 +100,8 @@ if(cmtListContainerElem) {
                 btnMod.innerText = '수정';
                 btnMod.addEventListener('click', function() {
                     tr.classList.add('cmt_selected');
-                    openModForm(item);
+                    var ctnt = tr.children[0].innerText;
+                    openModForm(item.icmt, ctnt);
                 });
                 var btnDel = document.createElement('button');
                 btnDel.innerText = '삭제';
