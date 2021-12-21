@@ -5,6 +5,8 @@ var cmtModContainerElem = document.querySelector('.cmtModContainer');
 var btnCancelElem = cmtModContainerElem.querySelector('#btnCancel');
 btnCancelElem.addEventListener('click', function() {
     cmtModContainerElem.style.display = 'none';
+    var selectedTrElem = document.querySelector('.cmt_selected');
+    selectedTrElem.classList.remove('cmt_selected');
 });
 
 var cmtModFrmElem = cmtModContainerElem.querySelector('#cmtModFrm');
@@ -27,11 +29,25 @@ submitBtnElem.addEventListener('click', function(e) {
         return res.json();
     }).then(function(data) {
         console.log(data.result);
+        switch(data.result) {
+            case 0: //수정 실패
+                alert('댓글 수정을 할 수 없습니다.')
+                break;
+            case 1: //수정 성공
+                modCtnt(param.ctnt);
+                btnCancelElem.dispatchEvent(new Event('click'));
+                break;
+        }
     }).catch(function(err) {
         console.log(err);
     });
-
 });
+
+function modCtnt(ctnt) {
+    var selectedTrElem = document.querySelector('.cmt_selected');
+    var tdCtntElem = selectedTrElem.children[0];
+    tdCtntElem.innerText = ctnt;
+}
 
 if(cmtListContainerElem) {
     function openModForm({ icmt, ctnt }) { //구조 분해 할당 사용함.
@@ -83,6 +99,7 @@ if(cmtListContainerElem) {
                 var btnMod = document.createElement('button');
                 btnMod.innerText = '수정';
                 btnMod.addEventListener('click', function() {
+                    tr.classList.add('cmt_selected');
                     openModForm(item);
                 });
                 var btnDel = document.createElement('button');
