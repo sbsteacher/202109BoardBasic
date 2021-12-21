@@ -47,8 +47,7 @@
 </div>
 <div class="cmtModContainer">
     <div class="cmtModBody">
-        <form action="/board/cmt/mod" method="post" id="cmtModFrm">
-            <input type="hidden" name="iboard" value="${requestScope.data.iboard}">
+        <form id="cmtModFrm" onsubmit="return false;">
             <input type="hidden" name="icmt">
             <div><input type="text" name="ctnt" placeholder="댓글 내용"></div>
             <div>

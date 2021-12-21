@@ -7,10 +7,35 @@ btnCancelElem.addEventListener('click', function() {
     cmtModContainerElem.style.display = 'none';
 });
 
+var cmtModFrmElem = cmtModContainerElem.querySelector('#cmtModFrm');
+var submitBtnElem = cmtModFrmElem.querySelector('input[type=submit]');
+submitBtnElem.addEventListener('click', function(e) {
+    e.preventDefault();
+    var url = '/board/cmt?proc=upd';
+
+    //댓글 수정 : ctnt, icmt
+    var param = {
+        'icmt': cmtModFrmElem.icmt.value,
+        'ctnt': cmtModFrmElem.ctnt.value
+    };
+
+    fetch(url, {
+        'method': 'POST',
+        'headers': { 'Content-Type': 'application/json' },
+        'body': JSON.stringify(param)
+    }).then(function(res) {
+        return res.json();
+    }).then(function(data) {
+        console.log(data.result);
+    }).catch(function(err) {
+        console.log(err);
+    });
+
+});
+
 if(cmtListContainerElem) {
     function openModForm({ icmt, ctnt }) { //구조 분해 할당 사용함.
         cmtModContainerElem.style.display = 'flex';
-        var cmtModFrmElem = cmtModContainerElem.querySelector('#cmtModFrm');
         cmtModFrmElem.icmt.value = icmt;
         cmtModFrmElem.ctnt.value = ctnt;
     }
