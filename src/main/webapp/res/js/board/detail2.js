@@ -1,5 +1,20 @@
 var cmtListContainerElem = document.querySelector('#cmtListContainer');
+var cmtModContainerElem = document.querySelector('.cmtModContainer');
+
+//(댓글 수정) 취소 버튼 클릭 이벤트 연결
+var btnCancelElem = cmtModContainerElem.querySelector('#btnCancel');
+btnCancelElem.addEventListener('click', function() {
+    cmtModContainerElem.style.display = 'none';
+});
+
 if(cmtListContainerElem) {
+    function openModForm({ icmt, ctnt }) { //구조 분해 할당 사용함.
+        cmtModContainerElem.style.display = 'flex';
+        var cmtModFrmElem = cmtModContainerElem.querySelector('#cmtModFrm');
+        cmtModFrmElem.icmt.value = icmt;
+        cmtModFrmElem.ctnt.value = ctnt;
+    }
+
     function getList() {
         var iboard = cmtListContainerElem.dataset.iboard;
         var url = '/board/cmt?iboard=' + iboard;
@@ -25,6 +40,8 @@ if(cmtListContainerElem) {
         `; //템플릿 리터널
         cmtListContainerElem.appendChild(tableElem);
 
+        var loginUserPk = cmtListContainerElem.dataset.loginuserpk === '' ? 0 : Number(cmtListContainerElem.dataset.loginuserpk);
+
         data.forEach(function(item) {
             var tr = document.createElement('tr');
             var ctnt = item.ctnt.replaceAll('<', '&lt;').replaceAll('>', '&gt;');
@@ -34,16 +51,20 @@ if(cmtListContainerElem) {
                 <td>${item.rdt}</td>
             `;
             tableElem.appendChild(tr);
-
             var lastTd = document.createElement('td');
-            var btnMod = document.createElement('button');
-            btnMod.innerText = '수정';
-            var btnDel = document.createElement('button');
-            btnDel.innerText = '삭제';
-
-            lastTd.appendChild(btnMod);
-            lastTd.appendChild(btnDel);
             tr.appendChild(lastTd);
+
+            if(loginUserPk === item.writer) {
+                var btnMod = document.createElement('button');
+                btnMod.innerText = '수정';
+                btnMod.addEventListener('click', function() {
+                    openModForm(item);
+                });
+                var btnDel = document.createElement('button');
+                btnDel.innerText = '삭제';
+                lastTd.appendChild(btnMod);
+                lastTd.appendChild(btnDel);
+            }
         });
     }
 

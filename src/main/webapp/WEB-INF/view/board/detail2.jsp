@@ -42,7 +42,8 @@
             </form>
         </div>
     </c:if>
-    <div id="cmtListContainer" data-iboard="${requestScope.data.iboard}"></div>
+    <div id="cmtListContainer" data-iboard="${requestScope.data.iboard}"
+         data-loginuserpk="${sessionScope.loginUser.iuser}"></div>
 </div>
 <div class="cmtModContainer">
     <div class="cmtModBody">
