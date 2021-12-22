@@ -27,7 +27,9 @@ newSubmitBtnElem.addEventListener('click', function(e) {
                 alert('댓글 달기를 할 수 없습니다.');
                 break;
             case 1:
-
+                cmtNewFrmElem.ctnt.value = '';
+                cmtListContainerElem.innerHTML = null;
+                getList();
                 break;
         }
     }).catch(function(err) {
@@ -201,11 +203,3 @@ if(cmtListContainerElem) {
     }
     getList();
 }
-
-
-
-
-
-
-
-
