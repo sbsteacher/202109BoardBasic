@@ -50,7 +50,7 @@ function modCtnt(ctnt) {
 }
 
 if(cmtListContainerElem) {
-    function openModForm(icmt, ctnt) { //구조 분해 할당 사용함.
+    function openModForm(icmt, ctnt) {
         cmtModContainerElem.style.display = 'flex';
         cmtModFrmElem.icmt.value = icmt;
         cmtModFrmElem.ctnt.value = ctnt;
@@ -105,6 +105,36 @@ if(cmtListContainerElem) {
                 });
                 var btnDel = document.createElement('button');
                 btnDel.innerText = '삭제';
+                btnDel.addEventListener('click', function() {
+                   if(confirm('삭제 하시겠습니까?')) {
+                       //삭제 ajax 처리
+                       var param = {
+                           icmt: item.icmt
+                       };
+
+                       var url = '/board/cmt?proc=del';
+                       fetch(url, {
+                           method: 'post',
+                           'headers': {'Content-Type': 'application/json'},
+                           body: JSON.stringify(param)
+                       }).then(function(res) {
+                            return res.json();
+                       }).then(function(data) {
+                            switch(data.result) {
+                                case 0: //삭제 실패
+                                    alert('댓글 삭제를 할 수 없습니다.')
+                                    break;
+                                case 1: //삭제 성공
+                                    alert('삭제 성공!!!');
+                                    break;
+                            }
+                       }).catch(function(err) {
+                           console.error(err);
+                           alert('댓글 삭제에 실패하였습니다.');
+                       });
+                   }
+                });
+
                 lastTd.appendChild(btnMod);
                 lastTd.appendChild(btnDel);
             }

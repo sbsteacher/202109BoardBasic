@@ -54,6 +54,9 @@ public class BoardCmtServlet extends HttpServlet {
             case "upd":
                 result = BoardCmtDAO.updBoardCmt(entity); //writer, icmt, ctnt
                 break;
+            case "del":
+                result = BoardCmtDAO.delBoardCmt(entity); //writer, icmt
+                break;
         }
         res.setContentType("application/json");
         PrintWriter out = res.getWriter();
