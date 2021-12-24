@@ -1,3 +1,7 @@
+table tr:not(:first-child):hover {
+    background-color: #efefef; cursor: pointer;
+}
+
 .cmtModContainer {
     display: none;
     position: fixed;

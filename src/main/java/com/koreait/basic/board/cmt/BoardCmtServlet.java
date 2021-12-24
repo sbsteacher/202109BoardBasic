@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.JspWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -64,5 +65,6 @@ public class BoardCmtServlet extends HttpServlet {
         res.setContentType("application/json");
         PrintWriter out = res.getWriter();
         out.print(String.format("{\"result\": %d}", result));
+
     }
 }

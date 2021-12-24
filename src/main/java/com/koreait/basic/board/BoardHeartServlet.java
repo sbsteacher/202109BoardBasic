@@ -31,3 +31,4 @@ public class BoardHeartServlet extends HttpServlet {
         res.sendRedirect("/board/detail?nohits=1&iboard=" + iboard);
     }
 }
+

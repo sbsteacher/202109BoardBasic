@@ -1,43 +1,44 @@
 var cmtNewFrmElem = document.querySelector('#cmtNewFrm');
+if(cmtNewFrmElem) {
 // 댓글달기 버튼
-var newSubmitBtnElem = cmtNewFrmElem.querySelector('input[type=submit]');
-newSubmitBtnElem.addEventListener('click', function(e) {
-    e.preventDefault();
+    var newSubmitBtnElem = cmtNewFrmElem.querySelector('input[type=submit]');
+    newSubmitBtnElem.addEventListener('click', function (e) {
+        e.preventDefault();
 
-    if(cmtNewFrmElem.ctnt.value.length === 0) {
-        alert('댓글 내용을 작성해 주세요.');
-        return;
-    }
-
-    var param = {
-        iboard: cmtListContainerElem.dataset.iboard,
-        ctnt: cmtNewFrmElem.ctnt.value
-    };
-
-    var url = '/board/cmt?proc=ins';
-    fetch(url, {
-        method: 'post',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(param)
-    }).then(function(res){
-        return res.json();
-    }).then(function(data) {
-        switch(data.result) {
-            case 0:
-                alert('댓글 달기를 할 수 없습니다.');
-                break;
-            case 1:
-                cmtNewFrmElem.ctnt.value = '';
-                cmtListContainerElem.innerHTML = null;
-                getList();
-                break;
+        if (cmtNewFrmElem.ctnt.value.length === 0) {
+            alert('댓글 내용을 작성해 주세요.');
+            return;
         }
-    }).catch(function(err) {
-        console.log(err);
-        alert('댓글 달기에 실패하였습니다.');
-    });
-});
 
+        var param = {
+            iboard: cmtListContainerElem.dataset.iboard,
+            ctnt: cmtNewFrmElem.ctnt.value
+        };
+
+        var url = '/board/cmt?proc=ins';
+        fetch(url, {
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(param)
+        }).then(function (res) {
+            return res.json();
+        }).then(function (data) {
+            switch (data.result) {
+                case 0:
+                    alert('댓글 달기를 할 수 없습니다.');
+                    break;
+                case 1:
+                    cmtNewFrmElem.ctnt.value = '';
+                    cmtListContainerElem.innerHTML = null;
+                    getList();
+                    break;
+            }
+        }).catch(function (err) {
+            console.log(err);
+            alert('댓글 달기에 실패하였습니다.');
+        });
+    });
+}
 var cmtListContainerElem = document.querySelector('#cmtListContainer');
 
 var cmtModContainerElem = document.querySelector('.cmtModContainer');
@@ -109,6 +110,7 @@ if(cmtListContainerElem) {
             console.log(err);
         })
     }
+
     function displayCmt2(data) {
         var tableElem = document.createElement('table');
         tableElem.innerHTML = `
@@ -125,6 +127,7 @@ if(cmtListContainerElem) {
 
         data.forEach(function(item) {
             var tr = document.createElement('tr');
+            tr.classList.add('record');
             var ctnt = item.ctnt.replaceAll('<', '&lt;').replaceAll('>', '&gt;');
             tr.innerHTML = `
                 <td>${ctnt}</td>
@@ -134,6 +137,31 @@ if(cmtListContainerElem) {
             tableElem.appendChild(tr);
             var lastTd = document.createElement('td');
             tr.appendChild(lastTd);
+
+            // TODO - 대댓글 [start]
+            tr.children[0].addEventListener('click', function() {
+                var myIdx = Array.prototype.indexOf.call(tableElem.childNodes, tr);
+                console.log(myIdx);
+                var nextIdx = myIdx + 1;
+                var nextTr = tableElem.childNodes[nextIdx];
+                console.log(nextTr);
+
+                //replyFrm 클래스를 가지고 있는 tr 삭제
+                var replyFrmList = tableElem.querySelectorAll('.replyFrm');
+                replyFrmList.forEach(function(item) {
+                    item.remove();
+                });
+
+                if(!nextTr.classList.contains('replyFrm')) {
+                    var replyTrElem = document.createElement('tr');
+                    replyTrElem.classList.add('replyFrm');
+                    replyTrElem.innerHTML = `
+                    <td colspan="4">폼태그</td>
+                   `;
+                    tableElem.insertBefore(replyTrElem, tableElem.childNodes[nextIdx]);
+                }
+            });
+            // 대댓글 [end]
 
             if(loginUserPk === item.writer) {
                 var btnMod = document.createElement('button');
